@@ -1,0 +1,30 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/*https://github.com/catppuccin/catppuccin*/
+.light-theme{/*Latte*/
+  --fg_main: hsl(234, 16%, 35%);
+  --sub_fg_main: hsl(233, 13%, 41%);
+  --bg_main: hsl(220, 21%, 89%);
+  --bg_contact: hsl(220, 22%, 92%);
+  --bg_interaction: hsl(220, 23%, 95%);
+}
+.dark-theme{/*Mocha*/
+  --fg_main: hsl(227, 70%, 87%);
+  --sub_fg_main: hsl(227, 35%, 80%);
+  --bg_main: hsl(240, 21%, 15%);
+  --bg_contact: hsl(240, 21%, 12%);
+  --bg_interaction: hsl(240, 23%, 9%);
+} 
+
+body {
+  margin: 0;
+}
