@@ -17,9 +17,6 @@
   align-items: center;
 }
 
-
-
-
 .switch{
   display: inline-block;
   position: relative;
@@ -113,6 +110,7 @@
   margin-top: -0.3rem;
 }
 main{
+  z-index: 1;
   padding: 0 1% 0 1%;
   position: absolute;
   top: 10.4%;
@@ -122,13 +120,53 @@ main{
   margin: 0 10% 0 10%;
   background-color: var(--bg_contact);
   color: var(--fg_main);
-
+  
+}
+.backgroundMain{
+  width: 50%;
+  height: 90%;
+  position: absolute;
+  top: 10%;
+}
+header{
+  z-index: 1;
 }
 
-
-
-
-
+.movieContainer{
+  margin: 1rem;
+  font-size: 0.2rem;
+  cursor: pointer;
+  width: 12rem;
+  height: 16rem;
+}
+.posterContainer {
+  width: 12rem;
+  height: 15rem;
+}
+.posterContainer img{
+  width: 12rem;
+  height: 15rem;
+  border-radius: 10px;
+  position: absolute;
+}
+.posterContainer h3{
+  position: absolute;
+  top: 1.5rem;
+  left: 2.3rem;
+  background-color: hsl(183, 74%, 35%, 0.8);
+  padding: 0.2rem;
+  border-radius: 10px;
+  color: hsl(227, 70%, 87%);
+}
+.posterContainer h5{
+  position: absolute;
+  top: 1.5rem;
+  left: 12.1rem;
+  background-color: hsl(183, 74%, 35%, 0.8);
+  padding: 0.2rem;
+  border-radius: 10px;
+  color: hsl(227, 70%, 87%);
+}
 
 footer{
   padding: 0 1% 0 1%;

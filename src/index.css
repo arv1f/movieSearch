@@ -8,7 +8,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
 /*https://github.com/catppuccin/catppuccin*/
 .light-theme{/*Latte*/
   --fg_main: hsl(234, 16%, 35%);
