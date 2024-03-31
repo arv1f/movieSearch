@@ -74,6 +74,7 @@
   position: relative;
   width: 100%;
   margin-left: 0rem;
+  height: 2rem;
 }
 .inputHeader {
   width: 100%;
@@ -84,13 +85,28 @@
   outline: none;
   background: var(--bg_main);
   color: var(--sub_fg_main);
+  position: absolute;
 }
-.buttonHeader {
+.formHeader :hover{
+  background-color: var(--main_hover);
+}
+/* .buttonHeader {
   position: absolute; 
   margin-top: 5px;
   right: 0;
   width: 42px;
   height: 2rem;
+  border: none;
+  background: var(--bg_input);
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+} */
+.buttonHeader {
+  position: absolute; 
+  right: -12px;
+  padding-top: 3.5px;
+  width: 42px;
+  height: 42px;
   border: none;
   background: var(--bg_input);
   border-radius: 0 5px 5px 0;
@@ -103,11 +119,11 @@
   color: #F9F0DA;
 }
 .buttonHeader img {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.8rem;
+  height: 1.8rem;
   text-align: center;
-  margin-left: -0.7rem;
-  margin-top: -0.3rem;
+  margin-left: -3px;
+  margin-top: 0rem;
 }
 main{
   z-index: 1;
@@ -131,13 +147,6 @@ main{
 header{
   z-index: 1;
 }
-
-
-
-
-
-
-
 
 
 
@@ -206,19 +215,23 @@ header{
   height: 36px;
   border-radius: 50%;
   border: none;
-  background-color: #fff;
+  background-color: var(--button_vector);
   box-shadow: 0 4px 8px rgb(0 0 0 / 20%);
   font-size: 1.2rem;
   cursor: pointer;
   z-index: 2;
+  align-items: center;
+}
+.button:hover {
+  background-color: hsl(227, 70%, 87%);
 }
 
 .buttonLeft {
-  left: -20px;
+  left: -10px;
 }
 
 .buttonRight {
-  right: -20px;
+  right: -10px;
 }
 
 .button--hidden {
@@ -241,6 +254,7 @@ header{
 .rightShadowWrapper {
   right: 0;
 }
+
 
 .shadow {
   position: absolute;

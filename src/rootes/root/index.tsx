@@ -49,7 +49,7 @@ export const Root = () => {
           <form className="formHeader">
             <input
               className="inputHeader"
-              type="search"
+              type="text"
               placeholder="Search movie by name"
               onChange={(event: ChangeEvent<HTMLInputElement>) => {
                 setValue(event.target.value);
@@ -110,10 +110,28 @@ export const Root = () => {
                         className="movieContainer"
                         onClick={() => myNavigator("/" + data.name)}
                       >
-                        <img
-                          src={data.poster.url}
-                          style={{ width: "100%", height: "100%" }}
-                        />
+                        <div>
+                          <img
+                            src={data.poster.url}
+                            style={{ width: "100%", height: "100%" }}
+                          />
+                          <p>{data.ageRating ? data.ageRating : null}</p>
+                          <p>{data.rating ? data.rating : null}</p>
+                        </div>
+                        <h4>
+                          {data.name
+                            ? data.name
+                            : data.alternativeName
+                              ? data.alternativeName
+                              : "Название отсутствует"}
+                        </h4>
+                        <p>
+                          {data.genres[0].name
+                            ? data.genres[0].name
+                            : "Жанры отсутствуют"}
+                          , {data.genres[1].name ? data.genres[1].name : null}
+                        </p>
+                        <p>{data.year ? data.year : "Год отсутствует"}</p>
                       </li>
                     ) : isError ? (
                       error.message
