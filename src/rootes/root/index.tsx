@@ -1,25 +1,54 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useRef, useEffect } from "react";
+import debounce from "lodash.debounce";
+import cn from "classnames";
 import { useMainStore } from "../../store";
 import "./style.css";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { randomMovie } from "../../api/nameSearch";
 
 export const Root = () => {
+  const [canScrollLeft, setCanScrollLeft] = useState<boolean>(false);
+  const [canScrollRight, setCanScrollRight] = useState<boolean>(false);
+  const listRef = useRef<HTMLUListElement>(null);
   const [value, setValue] = useState("");
   const myNavigator = useNavigate();
   const params = useParams();
   const { isThemeDark, toggleTheme } = useMainStore();
-  const { data, isLoading, isError, error } = randomMovie();
-  console.log(data);
+  const randomMovieList = randomMovie();
+
+  const checkForScrollPosition = () => {
+    const { current } = listRef;
+    if (current) {
+      const { scrollLeft, scrollWidth, clientWidth } = current;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(scrollLeft !== scrollWidth - clientWidth);
+    }
+  };
+  const debounceCheckForScrollPosition = debounce(checkForScrollPosition, 200);
+
+  const scrollContainerBy = (distance: number) =>
+    listRef.current?.scrollBy({ left: distance, behavior: "smooth" });
+
+  useEffect(() => {
+    const { current } = listRef;
+    checkForScrollPosition();
+    current?.addEventListener("scroll", debounceCheckForScrollPosition);
+
+    return () => {
+      current?.removeEventListener("scroll", debounceCheckForScrollPosition);
+      debounceCheckForScrollPosition.cancel();
+    };
+  }, []);
+
   return (
     <div className={`root-cont ${isThemeDark ? "dark-theme" : "light-theme"}`}>
       <header className="top_panel">
         <div>PosuduMovie</div>
         <div>{params.name ? params.name : ""}</div>
         <div className="mainSearch">
-          <form className="form">
+          <form className="formHeader">
             <input
-              className="input"
+              className="inputHeader"
               type="search"
               placeholder="Search movie by name"
               onChange={(event: ChangeEvent<HTMLInputElement>) => {
@@ -27,7 +56,7 @@ export const Root = () => {
               }}
             />
             <button
-              className="button"
+              className="buttonHeader"
               type="submit"
               onClick={() => value !== "" && myNavigator(`/${value}`)}
             >
@@ -66,28 +95,65 @@ export const Root = () => {
         className="backgroundMain"
       />
       <main>
-        {isLoading ? (
-          "Loading..."
-        ) : data ? (
-          <div
-            className="movieContainer"
-            onClick={() => myNavigator("/" + data.name)}
+        <div className="scrollableContainer">
+          {randomMovieList && (
+            <ul className="movieS_Container" ref={listRef}>
+              {randomMovieList.map((movie) => {
+                const { data, isLoading, isError, error } = movie;
+                return (
+                  <>
+                    {isLoading ? (
+                      "Loading..."
+                    ) : data ? (
+                      <li
+                        key={data.name}
+                        className="movieContainer"
+                        onClick={() => myNavigator("/" + data.name)}
+                      >
+                        <img
+                          src={data.poster.url}
+                          style={{ width: "100%", height: "100%" }}
+                        />
+                      </li>
+                    ) : isError ? (
+                      error.message
+                    ) : null}
+                  </>
+                );
+              })}
+            </ul>
+          )}
+          <button
+            type="button"
+            disabled={!canScrollLeft}
+            onClick={() => scrollContainerBy(-400)}
+            className={cn("button", "buttonLeft", {
+              "button--hidden": !canScrollLeft,
+            })}
           >
-            <div className="posterContainer">
-              <img src={data.poster.url} />
-              <h5>{data.ageRating ? data.ageRating : "0"}+</h5>
-              <h3>{data.rating.kp}</h3>
+            ←
+          </button>
+          <button
+            type="button"
+            disabled={!canScrollRight}
+            onClick={() => scrollContainerBy(400)}
+            className={cn("button", "buttonRight", {
+              "button--hidden": !canScrollRight,
+            })}
+          >
+            →
+          </button>
+          {canScrollLeft ? (
+            <div className="shadowWrapper leftShadowWrapper">
+              <div className="shadow leftShadow" />
             </div>
-            <h2>Название: {data.name ? data.name : data.alternativeName}</h2>
-            <h3>Год: {data.year}</h3>
-            <h4>
-              Жанры: {data.genres[0].name},{" "}
-              {data.genres[1] ? data.genres[1].name : null}
-            </h4>
-          </div>
-        ) : isError ? (
-          error.message
-        ) : null}
+          ) : null}
+          {canScrollRight ? (
+            <div className="shadowWrapper rightShadowWrapper">
+              <div className="shadow rightShadow" />
+            </div>
+          ) : null}
+        </div>
         <Outlet />
       </main>
       <footer>
