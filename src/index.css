@@ -29,7 +29,9 @@
 
   --main_hover:hsl(240, 21%, 17%);
 } 
-
+::-webkit-scrollbar {
+  display: none;
+}
 body {
   margin: 0;
 }
