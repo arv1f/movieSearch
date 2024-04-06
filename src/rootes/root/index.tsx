@@ -4,7 +4,7 @@ import cn from "classnames";
 import { useMainStore } from "../../store";
 import "./style.css";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
-import { randomMovie } from "../../api/nameSearch";
+import { useRandomMovie } from "../../api/nameSearch";
 
 export const Root = () => {
   const [canScrollLeft, setCanScrollLeft] = useState<boolean>(false);
@@ -14,8 +14,7 @@ export const Root = () => {
   const myNavigator = useNavigate();
   const params = useParams();
   const { isThemeDark, toggleTheme } = useMainStore();
-  const randomMovieList = randomMovie();
-
+  const useRandomMovieList = useRandomMovie();
   const checkForScrollPosition = () => {
     const { current } = listRef;
     if (current) {
@@ -44,7 +43,7 @@ export const Root = () => {
     <div className={`root-cont ${isThemeDark ? "dark-theme" : "light-theme"}`}>
       <header className="top_panel">
         <div>PosuduMovie</div>
-        <div>{params.name ? params.name : ""}</div>
+        {/* <div>{params.movieId ? params.movieId : ""}</div> */}
         <div className="mainSearch">
           <form className="formHeader">
             <input
@@ -74,7 +73,7 @@ export const Root = () => {
           <span className="switch__slider"></span>
         </label>
 
-        <div>Menu</div>
+        <div></div>
       </header>
       <img
         style={{ left: "0" }}
@@ -95,105 +94,111 @@ export const Root = () => {
         className="backgroundMain"
       />
       <main>
-        <div className="scrollableContainer">
-          {randomMovieList && (
-            <ul className="movieS_Container" ref={listRef}>
-              {randomMovieList.map((movie) => {
-                const { data, isLoading, isError, error } = movie;
-                console.log(data);
-                return (
-                  <>
-                    {isLoading ? (
-                      ""
-                    ) : data ? (
-                      <li
-                        key={data.name}
-                        className="movieContainer"
-                        onClick={() => myNavigator("/" + data.name)}
-                      >
-                        <div className="posterContainer">
-                          <img
-                            src={data.poster.url}
-                            style={{ width: "100%", height: "100%" }}
-                          />
-                          {data.ageRating ? (
-                            <p className="ageRating">{data.ageRating}+</p>
-                          ) : (
-                            ""
-                          )}
-                          <p className="rating">
-                            {data.rating.kp ? (
-                              <>{data.rating.kp}</>
-                            ) : data.rating.imdb ? (
-                              <>{data.rating.imdb}</>
+        {params.movieId ? (
+          <Outlet />
+        ) : (
+          <div className="scrollableContainer">
+            {useRandomMovieList && (
+              <ul className="movieS_Container" ref={listRef}>
+                {useRandomMovieList.map((movie, index) => {
+                  const { data, isLoading, isError, error } = movie;
+                  debounceCheckForScrollPosition();
+                  return (
+                    <>
+                      {isLoading ? (
+                        ""
+                      ) : data ? (
+                        <li
+                          className="movieContainer"
+                          onClick={() =>
+                            myNavigator("/movie/" + data.name, {
+                              state: { key: index },
+                            })
+                          }
+                        >
+                          <div className="posterContainer">
+                            <img
+                              src={data.poster.url}
+                              style={{ width: "100%", height: "100%" }}
+                            />
+                            {data.ageRating ? (
+                              <p className="ageRating">{data.ageRating}+</p>
                             ) : (
                               ""
                             )}
+                            <p className="rating">
+                              {data.rating.kp ? (
+                                <>{data.rating.kp}</>
+                              ) : data.rating.imdb ? (
+                                <>{data.rating.imdb}</>
+                              ) : (
+                                ""
+                              )}
+                            </p>
+                          </div>
+                          <h4>
+                            {data.name ? (
+                              <>{data.name}</>
+                            ) : data.alternativeName ? (
+                              <>{data.alternativeName}</>
+                            ) : (
+                              "Название отсутствует"
+                            )}
+                          </h4>
+                          <p>
+                            {data.genres[0] ? (
+                              <>{data.genres[0].name}</>
+                            ) : (
+                              "Жанры отсутствуют"
+                            )}
+                            , {data.genres[1] ? <>{data.genres[1].name}</> : ""}
                           </p>
-                        </div>
-                        <h4>
-                          {data.name ? (
-                            <>{data.name}</>
-                          ) : data.alternativeName ? (
-                            <>{data.alternativeName}</>
-                          ) : (
-                            "Название отсутствует"
-                          )}
-                        </h4>
-                        <p>
-                          {data.genres[0] ? (
-                            <>{data.genres[0].name}</>
-                          ) : (
-                            "Жанры отсутствуют"
-                          )}
-                          , {data.genres[1] ? <>{data.genres[1].name}</> : ""}
-                        </p>
-                        <p>
-                          {data.year ? <>{data.year}</> : "Год отсутствует"}
-                        </p>
-                      </li>
-                    ) : isError ? (
-                      error.message
-                    ) : (
-                      ""
-                    )}
-                  </>
-                );
+                          <p>
+                            {data.year ? <>{data.year}</> : "Год отсутствует"}
+                          </p>
+                        </li>
+                      ) : isError ? (
+                        error.message
+                      ) : (
+                        ""
+                      )}
+                    </>
+                  );
+                })}
+              </ul>
+            )}
+            <button
+              type="button"
+              disabled={!canScrollLeft}
+              onClick={() => scrollContainerBy(-400)}
+              className={cn("button", "buttonLeft", {
+                "button--hidden": !canScrollLeft,
               })}
-            </ul>
-          )}
-          <button
-            type="button"
-            disabled={!canScrollLeft}
-            onClick={() => scrollContainerBy(-400)}
-            className={cn("button", "buttonLeft", {
-              "button--hidden": !canScrollLeft,
-            })}
-          >
-            ←
-          </button>
-          <button
-            type="button"
-            disabled={!canScrollRight}
-            onClick={() => scrollContainerBy(400)}
-            className={cn("button", "buttonRight", {
-              "button--hidden": !canScrollRight,
-            })}
-          >
-            →
-          </button>
-          {canScrollLeft ? (
-            <div className="shadowWrapper leftShadowWrapper">
-              <div className="shadow leftShadow" />
-            </div>
-          ) : null}
-          {canScrollRight ? (
-            <div className="shadowWrapper rightShadowWrapper">
-              <div className="shadow rightShadow" />
-            </div>
-          ) : null}
-        </div>
-        <Outlet />
+            >
+              <p>←</p>
+            </button>
+            <button
+              type="button"
+              disabled={!canScrollRight}
+              onClick={() => scrollContainerBy(400)}
+              className={cn("button", "buttonRight", {
+                "button--hidden": !canScrollRight,
+              })}
+            >
+              <p>→</p>
+            </button>
+            {canScrollLeft ? (
+              <div className="shadowWrapper leftShadowWrapper">
+                <div className="shadow leftShadow" />
+              </div>
+            ) : null}
+            {canScrollRight ? (
+              <div className="shadowWrapper rightShadowWrapper">
+                <div className="shadow rightShadow" />
+              </div>
+            ) : null}
+          </div>
+        )}
       </main>
       <footer>
         <div>© 2024 — 2024, НеКинопоиск 18+</div>

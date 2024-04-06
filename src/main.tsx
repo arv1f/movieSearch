@@ -4,6 +4,7 @@ import "./index.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Root } from "./rootes/root";
+import { MovieRoot } from "./rootes/movieRoot";
 //
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -17,6 +18,17 @@ const queryClient = new QueryClient({
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <Root />,
+    children: [
+      {
+        path: "/movie/:movieId",
+        element: <MovieRoot />,
+      },
+    ],
+    errorElement: <Root />,
+  },
+  {
+    path: "*",
     element: <Root />,
   },
 ]);

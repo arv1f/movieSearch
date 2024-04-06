@@ -3,7 +3,7 @@ import { useQueries, useQuery } from "@tanstack/react-query";
 
 const key = "XMNC75V-WMTMP7X-K9GTNHA-R9YK8VX";
 
-export const nameSearch = (name: string) => {
+export const useNameSearch = (name: string) => {
   const options = {
     method: "GET",
     url: `https://api.kinopoisk.dev/v1.4/movie/search`,
@@ -16,8 +16,8 @@ export const nameSearch = (name: string) => {
     select: (data) => data.data,
   });
 };
-export const randomMovie = () => {
-  const idList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+export const useRandomMovie = () => {
+  const idList = [0, 1, 2];
   const options = {
     method: "GET",
     url: "https://api.kinopoisk.dev/v1.4/movie/random",
