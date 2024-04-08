@@ -11,6 +11,7 @@
 /*https://github.com/catppuccin/catppuccin*/
 .light-theme{/*Latte*/
   --fg_main: hsl(234, 16%, 35%);
+  --fg_main_blur: rgba(76, 79, 105, 0.5);
   --sub_fg_main: hsl(233, 13%, 41%);
   --bg_main: hsl(220, 21%, 89%);
   --bg_contact: hsl(220, 22%, 92%);
@@ -19,7 +20,8 @@
   --main_hover:hsl(220, 21%, 87%);
 }
 .dark-theme{/*Mocha*/
-  --fg_main: hsl(227, 70%, 87%);
+  --fg_main: hsl(226, 64%, 88%);
+  --fg_main_blur: rgba(205, 214, 244, 0.5);
   --sub_fg_main: hsl(227, 35%, 80%);
   --bg_main: hsl(240, 21%, 15%);
   --bg_contact: hsl(240, 21%, 12%);

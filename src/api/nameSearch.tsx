@@ -17,7 +17,7 @@ export const useNameSearch = (name: string) => {
   });
 };
 export const useRandomMovie = () => {
-  const idList = [0, 1, 2];
+  const idList = [0];
   const options = {
     method: "GET",
     url: "https://api.kinopoisk.dev/v1.4/movie/random",

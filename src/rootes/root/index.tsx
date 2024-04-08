@@ -37,7 +37,7 @@ export const Root = () => {
       current?.removeEventListener("scroll", debounceCheckForScrollPosition);
       debounceCheckForScrollPosition.cancel();
     };
-  }, []);
+  }, [params]);
 
   return (
     <div className={`root-cont ${isThemeDark ? "dark-theme" : "light-theme"}`}>
@@ -57,7 +57,7 @@ export const Root = () => {
             <button
               className="buttonHeader"
               type="submit"
-              onClick={() => value !== "" && myNavigator(`/${value}`)}
+              onClick={() => value !== "" && myNavigator(`/movie/${value}`)}
             >
               <img src="https://www.pngall.com/wp-content/uploads/8/Vector-Search.png" />
             </button>
