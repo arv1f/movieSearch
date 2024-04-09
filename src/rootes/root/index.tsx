@@ -13,8 +13,14 @@ export const Root = () => {
   const [value, setValue] = useState("");
   const myNavigator = useNavigate();
   const params = useParams();
-  const { isThemeDark, toggleTheme, backgroundUrl, setBackgroundUrl } =
-    useMainStore();
+  const {
+    isThemeDark,
+    toggleTheme,
+    backgroundUrl,
+    setBackgroundUrl,
+    addIdList,
+    idList,
+  } = useMainStore();
   const location = useLocation();
   if (location.pathname === "/" && backgroundUrl !== "") {
     setBackgroundUrl("");
@@ -111,6 +117,14 @@ export const Root = () => {
               <ul className="movieS_Container" ref={listRef}>
                 {useRandomMovieList.map((movie, index) => {
                   const { data, isLoading, isError, error } = movie;
+                  if (
+                    data &&
+                    data.id &&
+                    data.name &&
+                    !idList.includes(data.id)
+                  ) {
+                    addIdList(data.id);
+                  }
                   debounceCheckForScrollPosition();
                   return (
                     <>

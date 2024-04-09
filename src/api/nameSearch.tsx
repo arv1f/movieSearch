@@ -29,6 +29,21 @@ export const useRandomMovie = () => {
       queryKey: ["randomMovie", id],
       queryFn: () => axios.request(options),
       select: (data) => data.data,
+      keepPreviousData: true,
     })),
+  });
+};
+export const useSearchId = (queryKey: string) => {
+  return useQuery({
+    queryKey: ["searchId", queryKey],
+    queryFn: () => {
+      const options = {
+        method: "GET",
+        url: `https://api.kinopoisk.dev/v1.4/movie/${queryKey}`,
+        headers: { accept: "application/json" },
+      };
+      return axios.request(options);
+    },
+    select: (data) => data.data,
   });
 };

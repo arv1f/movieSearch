@@ -1,15 +1,12 @@
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import "./style.css";
-import { useQuery } from "@tanstack/react-query";
-import { useNameSearch } from "../../api/nameSearch";
+import { useNameSearch, useSearchId } from "../../api/nameSearch";
 import { useMainStore } from "../../store";
 
 const useApi = (queryKey: string | number) => {
   if (typeof queryKey === "number") {
-    return useQuery({
-      queryKey: ["randomMovie", queryKey],
-      select: (data) => data.data,
-    });
+    const { idList } = useMainStore((state) => state);
+    return useSearchId(idList[queryKey]);
   } else {
     return useNameSearch(queryKey);
   }
@@ -31,6 +28,7 @@ export const MovieRoot = () => {
   ) {
     setBackgroundUrl(data.poster.url);
   }
+  console.log(data);
   return (
     <>
       {isLoading ? (

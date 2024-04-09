@@ -6,6 +6,8 @@ interface Store {
   toggleTheme: () => void;
   backgroundUrl: string;
   setBackgroundUrl: (url: string) => void;
+  idList: number[];
+  addIdList: (id: number) => void;
 }
 
 export const useMainStore = create<Store>()(
@@ -21,6 +23,11 @@ export const useMainStore = create<Store>()(
         setBackgroundUrl: (backgroundUrl) =>
           set(() => ({
             backgroundUrl: backgroundUrl,
+          })),
+        idList: [],
+        addIdList: (id) =>
+          set((state) => ({
+            idList: [...state.idList, id],
           })),
       }),
       { name: "main", version: 1 },
