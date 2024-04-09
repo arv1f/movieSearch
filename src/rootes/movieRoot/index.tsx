@@ -1,16 +1,26 @@
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import "./style.css";
 import { useQuery } from "@tanstack/react-query";
+import { useNameSearch } from "../../api/nameSearch";
+
+const useApi = (queryKey: string | number) => {
+  if (typeof queryKey === "number") {
+    return useQuery({
+      queryKey: ["randomMovie", queryKey],
+      select: (data) => data.data,
+    });
+  } else {
+    return useNameSearch(queryKey);
+  }
+};
 
 export const MovieRoot = () => {
   const myNavigator = useNavigate();
   const params = useParams();
   const location = useLocation();
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["randomMovie", location.state.key],
-    select: (data) => data.data,
-  });
-  console.log(data);
+  const { data, isLoading, isError, error } = useApi(
+    location.state === null ? params.movieId : location.state.key,
+  );
   return (
     <>
       {isLoading ? (
@@ -45,7 +55,7 @@ export const MovieRoot = () => {
               ) : (
                 ""
               )}
-              {data.budget.value && data.budget.currency ? (
+              {data.budget && data.budget.value && data.budget.currency ? (
                 <h4>
                   <h3
                     style={{ display: "inline", color: "var(--fg_main_blur)" }}

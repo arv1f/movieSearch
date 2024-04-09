@@ -4,6 +4,8 @@ import { persist, devtools } from "zustand/middleware";
 interface Store {
   isThemeDark: boolean;
   toggleTheme: () => void;
+  backgroundUrl: string;
+  setBackgroundUrl: (url: string) => void;
 }
 
 export const useMainStore = create<Store>()(
@@ -14,6 +16,11 @@ export const useMainStore = create<Store>()(
         toggleTheme: () =>
           set((state) => ({
             isThemeDark: !state.isThemeDark,
+          })),
+        backgroundUrl: "",
+        setBackgroundUrl: () =>
+          set((state) => ({
+            backgroundUrl: state.backgroundUrl,
           })),
       }),
       { name: "main", version: 1 },

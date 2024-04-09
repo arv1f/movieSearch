@@ -7,13 +7,13 @@ export const useNameSearch = (name: string) => {
   const options = {
     method: "GET",
     url: `https://api.kinopoisk.dev/v1.4/movie/search`,
-    params: { page: "1", limit: "10", query: name },
+    params: { page: "1", limit: "1", query: name },
     headers: { accept: "application/json", "X-API-KEY": key },
   };
   return useQuery({
     queryKey: ["nameSearch", name],
     queryFn: () => axios.request(options),
-    select: (data) => data.data,
+    select: (data) => data.data.docs[0],
   });
 };
 export const useRandomMovie = () => {

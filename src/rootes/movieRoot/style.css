@@ -4,11 +4,12 @@
   position: relative;
   padding: 2rem;
   font-size: 0.6rem;
+  z-index: 1;
 }
 
 .mainContainer h6{
   position: absolute;
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   width: 2.5rem;
   height: 2.5rem;
   margin: 0;
@@ -17,8 +18,8 @@
   justify-content: center;
   align-items: center;
   border-radius: 100%;
-  background-color: var(--bg_main);
-  border: solid 1px var(--sub_fg_main);
+  /* background-color: var(--bg_main);
+  border: solid 1px var(--sub_fg_main); */
   cursor: pointer;
   overflow: hidden;
 }
