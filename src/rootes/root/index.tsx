@@ -3,7 +3,7 @@ import debounce from "lodash.debounce";
 import cn from "classnames";
 import { useMainStore } from "../../store";
 import "./style.css";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useRandomMovie } from "../../api/nameSearch";
 
 export const Root = () => {
@@ -13,7 +13,12 @@ export const Root = () => {
   const [value, setValue] = useState("");
   const myNavigator = useNavigate();
   const params = useParams();
-  const { isThemeDark, toggleTheme } = useMainStore();
+  const { isThemeDark, toggleTheme, backgroundUrl, setBackgroundUrl } =
+    useMainStore();
+  const location = useLocation();
+  if (location.pathname === "/" && backgroundUrl !== "") {
+    setBackgroundUrl("");
+  }
   const useRandomMovieList = useRandomMovie();
   const checkForScrollPosition = () => {
     const { current } = listRef;
@@ -76,20 +81,24 @@ export const Root = () => {
         <div></div>
       </header>
       <img
-        style={{ left: "0" }}
+        style={{ left: "0", width: `${backgroundUrl === "" ? "50%" : "25%"}` }}
         src={
-          isThemeDark
-            ? "https://img.razrisyika.ru/kart/85/1200/339801-kinoteatr-34.jpg"
-            : "https://avatars.mds.yandex.net/get-altay/492546/2a0000015e5335bad431c2c5776e07747126/XXL_height"
+          backgroundUrl === ""
+            ? isThemeDark
+              ? "https://img.razrisyika.ru/kart/85/1200/339801-kinoteatr-34.jpg"
+              : "https://avatars.mds.yandex.net/get-altay/492546/2a0000015e5335bad431c2c5776e07747126/XXL_height"
+            : backgroundUrl
         }
         className="backgroundMain"
       />
       <img
-        style={{ right: "0" }}
+        style={{ right: "0", width: `${backgroundUrl === "" ? "50%" : "25%"}` }}
         src={
-          isThemeDark
-            ? "https://img.razrisyika.ru/kart/85/1200/339801-kinoteatr-34.jpg"
-            : "https://avatars.mds.yandex.net/get-altay/492546/2a0000015e5335bad431c2c5776e07747126/XXL_height"
+          backgroundUrl === ""
+            ? isThemeDark
+              ? "https://img.razrisyika.ru/kart/85/1200/339801-kinoteatr-34.jpg"
+              : "https://avatars.mds.yandex.net/get-altay/492546/2a0000015e5335bad431c2c5776e07747126/XXL_height"
+            : backgroundUrl
         }
         className="backgroundMain"
       />

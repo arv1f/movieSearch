@@ -2,6 +2,7 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 import "./style.css";
 import { useQuery } from "@tanstack/react-query";
 import { useNameSearch } from "../../api/nameSearch";
+import { useMainStore } from "../../store";
 
 const useApi = (queryKey: string | number) => {
   if (typeof queryKey === "number") {
@@ -18,9 +19,18 @@ export const MovieRoot = () => {
   const myNavigator = useNavigate();
   const params = useParams();
   const location = useLocation();
+  const { setBackgroundUrl, backgroundUrl } = useMainStore((state) => state);
   const { data, isLoading, isError, error } = useApi(
     location.state === null ? params.movieId : location.state.key,
   );
+  if (
+    !isLoading &&
+    data &&
+    data.poster.url &&
+    backgroundUrl !== data.poster.url
+  ) {
+    setBackgroundUrl(data.poster.url);
+  }
   return (
     <>
       {isLoading ? (

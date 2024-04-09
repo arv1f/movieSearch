@@ -18,9 +18,9 @@ export const useMainStore = create<Store>()(
             isThemeDark: !state.isThemeDark,
           })),
         backgroundUrl: "",
-        setBackgroundUrl: () =>
-          set((state) => ({
-            backgroundUrl: state.backgroundUrl,
+        setBackgroundUrl: (backgroundUrl) =>
+          set(() => ({
+            backgroundUrl: backgroundUrl,
           })),
       }),
       { name: "main", version: 1 },
