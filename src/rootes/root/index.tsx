@@ -1,7 +1,7 @@
 import { ChangeEvent, useState, useRef, useEffect } from "react";
 import debounce from "lodash.debounce";
 import cn from "classnames";
-import { useMainStore } from "../../store";
+import { useMainStore, useMovieRandomeStore } from "../../store";
 import "./style.css";
 import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useRandomMovie } from "../../api/nameSearch";
@@ -13,14 +13,9 @@ export const Root = () => {
   const [value, setValue] = useState("");
   const myNavigator = useNavigate();
   const params = useParams();
-  const {
-    isThemeDark,
-    toggleTheme,
-    backgroundUrl,
-    setBackgroundUrl,
-    addIdList,
-    idList,
-  } = useMainStore();
+  const { isThemeDark, toggleTheme, backgroundUrl, setBackgroundUrl } =
+    useMainStore();
+  const { idList, addIdList } = useMovieRandomeStore();
   const location = useLocation();
   if (location.pathname === "/" && backgroundUrl !== "") {
     setBackgroundUrl("");
@@ -124,6 +119,7 @@ export const Root = () => {
                     !idList.includes(data.id)
                   ) {
                     addIdList(data.id);
+                    console.log(data.id);
                   }
                   debounceCheckForScrollPosition();
                   return (

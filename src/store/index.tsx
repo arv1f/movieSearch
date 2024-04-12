@@ -6,6 +6,8 @@ interface Store {
   toggleTheme: () => void;
   backgroundUrl: string;
   setBackgroundUrl: (url: string) => void;
+}
+interface movieStore {
   idList: number[];
   addIdList: (id: number) => void;
 }
@@ -24,13 +26,16 @@ export const useMainStore = create<Store>()(
           set(() => ({
             backgroundUrl: backgroundUrl,
           })),
-        idList: [],
-        addIdList: (id) =>
-          set((state) => ({
-            idList: [...state.idList, id],
-          })),
       }),
       { name: "main", version: 1 },
     ),
   ),
 );
+
+export const useMovieRandomeStore = create<movieStore>()((set) => ({
+  idList: [],
+  addIdList: (id) =>
+    set((state) => ({
+      idList: [...state.idList, id],
+    })),
+}));

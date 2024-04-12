@@ -1,11 +1,12 @@
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import "./style.css";
 import { useNameSearch, useSearchId } from "../../api/nameSearch";
-import { useMainStore } from "../../store";
+import { useMainStore, useMovieRandomeStore } from "../../store";
 
 const useApi = (queryKey: string | number) => {
   if (typeof queryKey === "number") {
-    const { idList } = useMainStore((state) => state);
+    const { idList } = useMovieRandomeStore((state) => state);
+    console.log(idList);
     return useSearchId(idList[queryKey]);
   } else {
     return useNameSearch(queryKey);
