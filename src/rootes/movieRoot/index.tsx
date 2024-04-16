@@ -29,7 +29,6 @@ export const MovieRoot = () => {
   ) {
     setBackgroundUrl(data.poster.url);
   }
-  console.log(data);
   return (
     <>
       {isLoading ? (
@@ -66,11 +65,11 @@ export const MovieRoot = () => {
               )}
               {data.budget && data.budget.value && data.budget.currency ? (
                 <h4>
-                  <h3
+                  {/* <h3
                     style={{ display: "inline", color: "var(--fg_main_blur)" }}
                   >
                     Бюджет{" "}
-                  </h3>
+                  </h3> */}
                   {data.budget.value}
                   {data.budget.currency}
                 </h4>

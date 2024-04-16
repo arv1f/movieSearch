@@ -17,7 +17,6 @@
   align-items: center;
   position: relative;
 }
-
 .switch{
   display: inline-block;
   position: relative;
@@ -137,7 +136,7 @@ main{
   margin: 0 10% 0 10%;
   background-color: var(--bg_contact);
   color: var(--fg_main);
-  
+  overflow-x: auto;
 }
 .backgroundMain{
   width: 50%;

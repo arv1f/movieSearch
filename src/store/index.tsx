@@ -6,6 +6,8 @@ interface Store {
   toggleTheme: () => void;
   backgroundUrl: string;
   setBackgroundUrl: (url: string) => void;
+  isModal: boolean;
+  setIsModal: (isModal: boolean) => void;
 }
 interface movieStore {
   idList: number[];
@@ -25,6 +27,11 @@ export const useMainStore = create<Store>()(
         setBackgroundUrl: (backgroundUrl) =>
           set(() => ({
             backgroundUrl: backgroundUrl,
+          })),
+        isModal: false,
+        setIsModal: (isModal) =>
+          set(() => ({
+            isModal: isModal,
           })),
       }),
       { name: "main", version: 1 },
