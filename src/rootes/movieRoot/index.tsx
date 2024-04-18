@@ -6,7 +6,6 @@ import { useMainStore, useMovieRandomeStore } from "../../store";
 const useApi = (queryKey: string | number) => {
   if (typeof queryKey === "number") {
     const { idList } = useMovieRandomeStore((state) => state);
-    console.log(idList);
     return useSearchId(idList[queryKey]);
   } else {
     return useNameSearch(queryKey);
@@ -36,7 +35,17 @@ export const MovieRoot = () => {
       ) : data ? (
         <>
           <div className="mainContainer">
-            <h6 onClick={() => myNavigator("/")}>🠔</h6>
+            <h6
+              onClick={() => {
+                if (location.state.url) {
+                  myNavigator(location.state.url);
+                } else {
+                  myNavigator("/");
+                }
+              }}
+            >
+              🠔
+            </h6>
             <img src={data.poster.url} />
             <div className="textContainer">
               <h1>

@@ -10,7 +10,7 @@
   margin-left: 150%;
   background-color: transparent;
 }
-.filterList div {
+.genre {
   width: 10rem;
   height: 2rem;
   background-color: var(--bg_main);
@@ -19,11 +19,11 @@
   justify-content: center;
   cursor: pointer;
   border-radius: 5px;
-  border: solid 1px var(--bg_input);
+  border: solid 0.1rem transparent;
 }
-.filterList div:hover {
+.genre:hover {
   background-color: var(--main_hover);
 }
 .active {
-  border: .1rem solid purple;
+  border-color: var(--fg_main);
 }

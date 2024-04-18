@@ -6,6 +6,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Root } from "./rootes/root";
 import { MovieRoot } from "./rootes/movieRoot";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { FilterRoot } from "./rootes/filterRoot";
 //
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "/movie/:movieId",
         element: <MovieRoot />,
+      },
+      {
+        path: "/filters/:filterList",
+        element: <FilterRoot />,
       },
     ],
     errorElement: <Root />,

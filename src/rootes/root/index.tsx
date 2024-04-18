@@ -48,7 +48,7 @@ export const Root = () => {
       </>
       <main>
         {isModal && <FilterModal />}
-        {params.movieId ? <Outlet /> : <RandomMovies />}
+        {params.movieId || params.filterList ? <Outlet /> : <RandomMovies />}
       </main>
       <footer>
         <div>© 2024 — 2024, НеКинопоиск 18+</div>
