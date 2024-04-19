@@ -1,14 +1,54 @@
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import "./style.css";
-import { useNameSearch, useSearchId } from "../../api/nameSearch";
+import {
+  useFilterList,
+  useNameSearch,
+  useRandomMovie,
+} from "../../api/nameSearch";
 import { useMainStore, useMovieRandomeStore } from "../../store";
 
-const useApi = (queryKey: string | number) => {
-  if (typeof queryKey === "number") {
-    const { idList } = useMovieRandomeStore((state) => state);
-    return useSearchId(idList[queryKey]);
+// const useApi = (queryKey: string | number) => {
+//   if (typeof queryKey === "number" && queryKey >= 0) {
+//     // const { idList } = useMovieRandomeStore((state) => state);
+//     // return useSearchId(idList[queryKey]);
+//     const useRandomMovieList = useRandomMovie();
+//     console.log(useRandomMovieList[queryKey], "useRandomMovieList[queryKey]");
+//     return useRandomMovieList[queryKey];
+//   } else {
+//     if (typeof queryKey === "number" && queryKey <= 0) {
+//       const location = useLocation();
+//       const { data: useRandomMovieList } = useFilterList(
+//         location.state.generes,
+//       );
+//       console.log(
+//         useRandomMovieList.docs[queryKey * -1],
+//         "useRandomMovieList.docs[queryKey * -1]",
+//       );
+//       return useRandomMovieList.docs[queryKey * -1];
+//     } else {
+//       console.log("nameSearch", queryKey);
+//       return useNameSearch(queryKey);
+//     }
+//   }
+// };
+
+const useApi = (queryKey: number, type: string) => {
+  if (type === "random") {
+    console.log(0);
+    const useRandomMovieList = useRandomMovie();
+    return useRandomMovieList[queryKey];
   } else {
-    return useNameSearch(queryKey);
+    if (type === "filter") {
+      console.log(1);
+      const location = useLocation();
+      const { data: useRandomMovieList } = useFilterList(
+        location.state.generes,
+      );
+      return useRandomMovieList.docs[queryKey];
+    } else {
+      console.log(2);
+      return useNameSearch(type);
+    }
   }
 };
 
@@ -17,9 +57,19 @@ export const MovieRoot = () => {
   const params = useParams();
   const location = useLocation();
   const { setBackgroundUrl, backgroundUrl } = useMainStore((state) => state);
+  console.log(params.movieId, location.state, location.state.key);
   const { data, isLoading, isError, error } = useApi(
-    location.state === null ? params.movieId : location.state.key,
+    location.state.key ? params.movieId : location.state.key,
+    location.state.type,
   );
+  // const { data, isLoading, isError, error } = useApi(
+  //   location.state === null
+  //     ? params.movieId
+  //     : location.state.url && location.state.url.includes("/filters/")
+  //       ? location.state.key * -1
+  //       : location.state.key,
+  // );
+  // console.log(data);
   if (
     !isLoading &&
     data &&
@@ -37,9 +87,14 @@ export const MovieRoot = () => {
           <div className="mainContainer">
             <h6
               onClick={() => {
-                if (location.state.url) {
+                if (
+                  location.state.url &&
+                  location.state.url.includes("/filters/")
+                ) {
+                  setBackgroundUrl("");
                   myNavigator(location.state.url);
                 } else {
+                  setBackgroundUrl("");
                   myNavigator("/");
                 }
               }}

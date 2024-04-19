@@ -29,7 +29,11 @@ export const RootHeader = () => {
               e.preventDefault();
               if (value !== "") {
                 setIsModal(false);
-                myNavigator(`/movie/${value}`);
+                myNavigator(`/movie/${value}`, {
+                  state: {
+                    type: value,
+                  },
+                });
               }
             }}
           >

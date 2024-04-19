@@ -69,7 +69,7 @@ export const RandomMovies = () => {
                         onClick={() => {
                           setIsModal(false);
                           myNavigator("/movie/" + data.name, {
-                            state: { key: index },
+                            state: { key: index, type: "random" },
                           });
                         }}
                       >

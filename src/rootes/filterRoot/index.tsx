@@ -15,7 +15,11 @@ export const FilterRoot = () => {
   const { data: useRandomMovieList, isLoading } = useFilterList(
     location.state.key,
   );
-  console.log(useRandomMovieList, location.state.key.join("&genres.name="));
+  console.log(location.state.key, useRandomMovieList);
+  const { setBackgroundUrl, backgroundUrl } = useMainStore();
+  if (location.pathname.includes("/filters") && backgroundUrl !== "") {
+    setBackgroundUrl("");
+  }
   const { idList, addIdList } = useMovieRandomeStore();
   const { current } = listRef;
   const myNavigator = useNavigate();
@@ -62,7 +66,12 @@ export const FilterRoot = () => {
                       onClick={() => {
                         setIsModal(false);
                         myNavigator("/movie/" + data.name, {
-                          state: { key: index, url: location.pathname },
+                          state: {
+                            key: index,
+                            url: location.pathname,
+                            generes: location.state.key,
+                            type: "filter",
+                          },
                         });
                       }}
                     >

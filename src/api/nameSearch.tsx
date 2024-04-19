@@ -57,7 +57,8 @@ export const useRandomMovie = (): {
   isError: boolean;
   error: import("axios").AxiosError<unknown>;
 } => {
-  const idList = [0];
+  const idList = [0, 1, 2];
+  // const idList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   const options = {
     method: "GET",
     url: "https://api.kinopoisk.dev/v1.4/movie/random",
@@ -69,7 +70,11 @@ export const useRandomMovie = (): {
       queryKey: ["randomMovie", id],
       queryFn: () => axios.request(options),
       select: (data: { data: Movie }) => data.data,
-      // keepPreviousData: true,
+      keepPreviousData: true,
+      isFetchingOptimistic: true,
+      refetchOnMount: false,
+      // refetchOnWindowFocus: false,
+      refetchOnReconnect: true,
     })),
   });
 };
@@ -116,7 +121,7 @@ export const useFilterList = (mylist: string[]) => {
         url: "https://api.kinopoisk.dev/v1.4/movie",
         params: {
           page: "1",
-          limit: "250",
+          limit: "100",
           "genres.name": mylist.join("&genres.name="),
         },
         headers: {

@@ -4,8 +4,10 @@ import { Outlet, useLocation, useParams } from "react-router-dom";
 import { FilterModal } from "../../components/filterModal";
 import { RandomMovies } from "../../components/randomMovies";
 import { RootHeader } from "../../components/rootHeader";
+import { useGeneresList } from "../../api/nameSearch";
 
 export const Root = () => {
+  const { data: noneUseInRootData } = useGeneresList();
   const params = useParams();
   const { isThemeDark, backgroundUrl, setBackgroundUrl } = useMainStore();
   const { isModal } = useMainStore();
