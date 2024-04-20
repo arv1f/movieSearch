@@ -15,7 +15,6 @@ export const FilterRoot = () => {
   const { data: useRandomMovieList, isLoading } = useFilterList(
     location.state.key,
   );
-  console.log(location.state.key, useRandomMovieList);
   const { setBackgroundUrl, backgroundUrl } = useMainStore();
   if (location.pathname.includes("/filters") && backgroundUrl !== "") {
     setBackgroundUrl("");
@@ -58,68 +57,60 @@ export const FilterRoot = () => {
               debounceCheckForScrollPosition();
               return (
                 <>
-                  {isLoading ? (
-                    ""
-                  ) : data ? (
-                    <li
-                      className="movieContainer"
-                      onClick={() => {
-                        setIsModal(false);
-                        myNavigator("/movie/" + data.name, {
-                          state: {
-                            key: index,
-                            url: location.pathname,
-                            generes: location.state.key,
-                            type: "filter",
-                          },
-                        });
-                      }}
-                    >
-                      <div className="posterContainer">
-                        <img
-                          src={data.poster.url}
-                          style={{ width: "100%", height: "100%" }}
-                        />
-                        {data.ageRating ? (
-                          <p className="ageRating">{data.ageRating}+</p>
+                  <li
+                    className="movieContainer"
+                    onClick={() => {
+                      setIsModal(false);
+                      myNavigator("/movie/" + data.name, {
+                        state: {
+                          key: index,
+                          url: location.pathname,
+                          generes: location.state.key,
+                          type: "filter",
+                        },
+                      });
+                    }}
+                  >
+                    <div className="posterContainer">
+                      <img
+                        src={data.poster.url}
+                        style={{ width: "100%", height: "100%" }}
+                      />
+                      {data.ageRating ? (
+                        <p className="ageRating">{data.ageRating}+</p>
+                      ) : (
+                        ""
+                      )}
+                      <p className="rating">
+                        {data.rating.kp ? (
+                          <>{data.rating.kp}</>
+                        ) : data.rating.imdb ? (
+                          <>{data.rating.imdb}</>
                         ) : (
                           ""
                         )}
-                        <p className="rating">
-                          {data.rating.kp ? (
-                            <>{data.rating.kp}</>
-                          ) : data.rating.imdb ? (
-                            <>{data.rating.imdb}</>
-                          ) : (
-                            ""
-                          )}
-                        </p>
-                      </div>
-                      <h4>
-                        {data.name ? (
-                          <>{data.name}</>
-                        ) : data.alternativeName ? (
-                          <>{data.alternativeName}</>
-                        ) : (
-                          "Название отсутствует"
-                        )}
-                      </h4>
-                      <p>
-                        {data.genres[0] ? (
-                          <>{data.genres[0].name},</>
-                        ) : (
-                          "Жанры отсутствуют"
-                        )}
-                        {data.genres[1] ? <>{data.genres[1].name},</> : ""}{" "}
-                        {data.genres[2] ? <>{data.genres[2].name}</> : ""}
                       </p>
-                      <p>{data.year ? <>{data.year}</> : "Год отсутствует"}</p>
-                    </li>
-                  ) : isError ? (
-                    error.message
-                  ) : (
-                    ""
-                  )}
+                    </div>
+                    <h4>
+                      {data.name ? (
+                        <>{data.name}</>
+                      ) : data.alternativeName ? (
+                        <>{data.alternativeName}</>
+                      ) : (
+                        "Название отсутствует"
+                      )}
+                    </h4>
+                    <p>
+                      {data.genres[0] ? (
+                        <>{data.genres[0].name},</>
+                      ) : (
+                        "Жанры отсутствуют"
+                      )}
+                      {data.genres[1] ? <>{data.genres[1].name},</> : ""}{" "}
+                      {data.genres[2] ? <>{data.genres[2].name}</> : ""}
+                    </p>
+                    <p>{data.year ? <>{data.year}</> : "Год отсутствует"}</p>
+                  </li>
                 </>
               );
             })}
