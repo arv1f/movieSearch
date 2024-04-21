@@ -57,8 +57,7 @@ export const useRandomMovie = (): {
   isError: boolean;
   error: import("axios").AxiosError<unknown>;
 } => {
-  const idList = [0, 1, 2];
-  // const idList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const idList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   const options = {
     method: "GET",
     url: "https://api.kinopoisk.dev/v1.4/movie/random",

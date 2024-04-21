@@ -165,6 +165,9 @@ header{
   margin: 0;
   flex-shrink: 0
 }
+.movieS_Container :first-child{
+  margin-left: 0;
+}
 .movieS_Container::-webkit-scrollbar,
 .scrollableContainer::-webkit-scrollbar{
   width: 0;
@@ -228,7 +231,7 @@ header{
   margin-top: 0.08rem;
 }
 .button:hover {
-  background-color: hsl(227, 70%, 87%);
+  background-color: var(--fg_main);
 }
 
 .buttonLeft {

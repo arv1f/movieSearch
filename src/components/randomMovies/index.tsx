@@ -126,36 +126,44 @@ export const RandomMovies = () => {
             )}
           </ul>
         )}
-        <button
-          type="button"
-          disabled={!canScrollLeft}
-          onClick={() => scrollContainerBy(-400)}
-          className={cn("button", "buttonLeft", {
-            "button--hidden": !canScrollLeft,
-          })}
-        >
-          <p>←</p>
-        </button>
-        <button
-          type="button"
-          disabled={!canScrollRight}
-          onClick={() => scrollContainerBy(400)}
-          className={cn("button", "buttonRight", {
-            "button--hidden": !canScrollRight,
-          })}
-        >
-          <p>→</p>
-        </button>
-        {canScrollLeft ? (
-          <div className="shadowWrapper leftShadowWrapper">
-            <div className="shadow leftShadow" />
-          </div>
-        ) : null}
-        {canScrollRight ? (
-          <div className="shadowWrapper rightShadowWrapper">
-            <div className="shadow rightShadow" />
-          </div>
-        ) : null}
+        {useRandomMovieList &&
+          (!useRandomMovieList[0].isLoading ||
+            !useRandomMovieList[7].isLoading) && (
+            <>
+              <button
+                type="button"
+                // disabled={!canScrollLeft}
+                onClick={() => scrollContainerBy(-400)}
+                className={cn("button", "buttonLeft", {
+                  // "button--hidden": !canScrollLeft,
+                  "button--hidden": false,
+                })}
+              >
+                <p>←</p>
+              </button>
+              <button
+                type="button"
+                // disabled={!canScrollRight}
+                onClick={() => scrollContainerBy(400)}
+                className={cn("button", "buttonRight", {
+                  // "button--hidden": !canScrollRight,
+                  "button--hidden": false,
+                })}
+              >
+                <p>→</p>
+              </button>
+              {canScrollLeft ? (
+                <div className="shadowWrapper leftShadowWrapper">
+                  <div className="shadow leftShadow" />
+                </div>
+              ) : null}
+              {canScrollRight ? (
+                <div className="shadowWrapper rightShadowWrapper">
+                  <div className="shadow rightShadow" />
+                </div>
+              ) : null}
+            </>
+          )}
       </div>
     </>
   );
