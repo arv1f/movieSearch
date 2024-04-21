@@ -5,7 +5,7 @@ import {
   useNameSearch,
   useRandomMovie,
 } from "../../api/nameSearch";
-import { useMainStore, useMovieRandomeStore } from "../../store";
+import { useMainStore } from "../../store";
 
 const useApi = (queryKey: number, type: string) => {
   const location = useLocation();
@@ -14,14 +14,17 @@ const useApi = (queryKey: number, type: string) => {
     return useRandomMovieList[location.state.key];
   } else {
     if (type === "filter") {
-      const { data: useRandomMovieList } = useFilterList(
-        location.state.generes,
-      );
+      const {
+        data: useRandomMovieList,
+        isLoading,
+        isError,
+        error,
+      } = useFilterList(location.state.generes);
       return {
         data: useRandomMovieList.docs[queryKey],
-        isLoading: false,
-        isError: false,
-        error: null,
+        isLoading: isLoading,
+        isError: isError,
+        error: error,
       };
     } else {
       return useNameSearch(type);
@@ -34,7 +37,6 @@ export const MovieRoot = () => {
   const params = useParams();
   const location = useLocation();
   const { setBackgroundUrl, backgroundUrl } = useMainStore((state) => state);
-  console.log(params.movieId, location.state, location.state.key);
   const { data, isLoading, isError, error } = useApi(
     location.state.type === "filter" || location.state.type === "random"
       ? location.state.key
@@ -49,7 +51,7 @@ export const MovieRoot = () => {
   ) {
     setBackgroundUrl(data.poster.url);
   }
-  console.log(location.state);
+  console.log(data);
   return (
     <>
       {isLoading ? (
@@ -127,6 +129,34 @@ export const MovieRoot = () => {
                 ""
               )}
               {data.description ? <p>{data.description}</p> : ""}
+              {/* {data.persons ? (
+                <div className="persons">
+                  {data.persons.map((el: any) => {
+                    return (
+                      <>
+                        {el.photo && (
+                          <div className="person">
+                            <img src={el.photo} />
+                            {el.description && el.name ? (
+                              <p>
+                                Роль {el.description}: Исполнял {el.name}
+                              </p>
+                            ) : el.name ? (
+                              <p>Исполнял {el.name}</p>
+                            ) : el.description ? (
+                              <p>Роль {el.description}</p>
+                            ) : (
+                              ""
+                            )}
+                          </div>
+                        )}
+                      </>
+                    );
+                  })}
+                </div>
+              ) : (
+                ""
+              )} */}
             </div>
           </div>
         </>

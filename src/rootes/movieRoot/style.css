@@ -41,3 +41,25 @@
   margin: 0;
   font-size: 0.8rem;
 }
+
+.persons {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.person {
+  display: flex;
+  flex-direction: row;}
+
+.person img{
+  width: 6rem;
+  height: 7rem;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg_input);
+  border-radius: 7px;
+  position: relative;
+}
+.person p{
+  display: block;
+}
